@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block centered %} {% endblock %}
+
+{% block content %}
+    <div class="mx-auto mt-auto container register-container">
+        <div class="mx-2 my-4 card rounded-4 border-0 shadow">
+            <div class="mx-5 my-3">
+                <h1 class="mb-4">Inscription</h1>
+
+                <div class="row">
+                    {{ form_start(form) }}
+                    {{ form_row(form.firstname) }}
+                    {{ form_row(form.lastname) }}
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.phone) }}
+                    {{ form_row(form.password) }}
+                    {{ form_row(form.submit, { 'attr': {'class': 'w-100 btn btn-primary mb-2 mt-4'} }) }}
+                    {{ form_end(form) }}
+
+                    <hr>
+
+                    <div class="mb-3">
+                        <span data-keep-query="true" data-route="app_login" class="mb-3 app-link cursor-pointer text-muted link-dark">Ou souhaitez vous vous connecter ?</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

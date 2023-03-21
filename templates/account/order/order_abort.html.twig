@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annulation de commande{% endblock %}
+
+{% block content %}
+    <div class="flex-grow-1 bg-white d-flex flex-column">
+        <div class="my-auto container">
+            <div class="py-1">
+                <h2>Annulation de commande</h2>
+                <p>
+                    Bonjour <b>{{ app.user.firstname }}</b>, <br/><br/>
+                    Votre commande n°<b>{{ order.reference }}</b> a été annulée.<br/>
+                    Vous avez oubliez d'ajouter quelque chose à votre panier ? Parcourez la <a href="{{ path('app_products') }}" class="link-primary">boutique</a>. <br/>
+
+                    <hr/>
+
+                    Pour commander à nouveau, rendez-vous dans votre <a class="link-primary" href="{{ path('app_cart') }}">panier</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

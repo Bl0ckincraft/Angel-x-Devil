@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+    <div class="flex-grow-1 bg-white d-flex flex-column">
+        <div class="my-auto container">
+            <div class="d-md-flex py-1">
+                <div class="col-md-5 p-2 text-center d-md-flex flex-md-column">
+                    <img class="h-auto w-100 product-image-xl my-md-auto mx-md-auto" src="/uploads/products/{{ product.illustration }}" alt=""/>
+                </div>
+                <div class="col-md-7 p-4 d-md-flex flex-md-column">
+                    <div class="d-flex flex-column my-md-auto">
+                        <span class="product-name-xl">{{ product.name }}</span>
+                        <span class="product-subtitle-xl">{{ product.subtitle }}</span>
+                        <span class="product-price-xl mt-3">{{ (product.price / 100)|number_format(2, '.', ',') }}€</span>
+                        <hr>
+                        <span class="mb-3 product-description-xl text-muted">{{ product.description }}</span>
+                        <button data-product-id="{{ product.id }}" data-product-slug="{{ product.slug }}" class="btn btn-primary me-auto btn-add-to-cart">Ajouter au panier</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

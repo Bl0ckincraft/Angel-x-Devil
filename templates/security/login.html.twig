@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connection{% endblock %}
+
+{% block content %}
+    <div class="mx-auto mt-auto container login-container">
+        <div class="mx-2 my-4 card rounded-4 border-0 shadow">
+            <div class="mx-5 my-3">
+                <h1 class="mb-4">Connection</h1>
+
+                <form method="post" class="row">
+                    <style>
+                        .showHiddenPassword-toggle {
+                            position: absolute;
+                            top: 50%;
+                            right: 1.5em;
+                            transform: translateY(-50%);
+                        }
+                    </style>
+
+                    <script>
+                        function _togglePassword() {
+                            const _passwordField = document.querySelector('#inputPassword');
+                            const _showHideToggle = document.querySelector('#showHideToggle');
+
+                            if (_showHideToggle.classList.contains('fa-eye-slash')) {
+                                _showHideToggle.classList.remove('fa-eye-slash')
+                                _showHideToggle.classList.add('fa-eye')
+                                _passwordField.type = 'text'
+                            } else {
+                                _showHideToggle.classList.remove('fa-eye')
+                                _showHideToggle.classList.add('fa-eye-slash')
+                                _passwordField.type = 'password'
+                            }
+                        }
+                    </script>
+
+
+                    <!--    <div class="error">{\{ error.messageKey|trans(error.messageData, 'security') }\}</div> -->
+
+                    <div class="mb-3">
+                        <label for="inputEmail" class="form-label required">Email</label>
+                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus placeholder="Votre email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputPassword" class="form-label required">Mot de passe</label>
+                        <div class="position-relative">
+                            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required placeholder="Votre mot de passe">
+                            <span class="showHiddenPassword-toggle" onclick="_togglePassword()">
+                                <i id="showHideToggle" class="fa-solid fa-eye-slash"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                    <div class="mb-3">
+                        <div class="checkbox">
+                            <label><input type="checkbox" name="_remember_me"> Se souvenir de moi</label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 w-100">
+                        <button class="w-100 btn btn-primary" type="submit">Se connecter</button>
+                    </div>
+
+                    <hr>
+
+                    <span data-keep-query="true" data-route="app_register" class="app-link cursor-pointer text-muted link-dark">Ou souhaitez vous créer un compte ?</span>
+                    <span class="cursor-pointer text-muted mb-3 link-dark">Mot de passe oublié ?</span>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+    <div id="carousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" aria-label="Slide 1" class="active" aria-current="true"></button>
+            <button type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
+            <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 3" class=""></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="object-fit-cover" width="100%" height="100%" src="{{ asset('assets/images/carrousel-1.png') }}" aria-hidden="true" alt=""/>
+                <div class="container">
+                    <div class="carousel-caption text-start">
+                        <h1>Premier titre.</h1>
+                        <p>Première description qui explique le titre.</p>
+                        <p><a class="btn btn-lg btn-primary" href="{{ path('app_register') }}">S'inscrire maintenant</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="object-fit-cover" width="100%" height="100%" src="{{ asset('assets/images/carrousel-2.png') }}" aria-hidden="true" alt=""/>
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>Deuxième titre.</h1>
+                        <p>Deuxième description qui explique le titre.</p>
+                        <p><a class="btn btn-lg btn-primary" href="#">Parcourir nos produits</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="object-fit-cover" width="100%" height="100%" src="{{ asset('assets/images/carrousel-3.png') }}" aria-hidden="true" alt=""/>
+                <div class="container">
+                    <div class="carousel-caption text-end">
+                        <h1>Troisième titre.</h1>
+                        <p>Troisième description qui explique le titre.</p>
+                        <p><a class="btn btn-lg btn-primary" href="{{ path('app_about') }}">En savoir plus</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <div class="container marketing">
+        <div class="row">
+            <div class="col-lg-6 text-center pt-3">
+                <img class="object-fit-contain bg-white rounded-5 mb-2 shadow" src="{{ asset('assets/images/vêtements.png') }}" width="140" height="140" alt=""/>
+                <h2>Vêtements</h2>
+                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+                <p><a class="btn btn-secondary" href="{{ path('app_products') }}" role="button">Voir les collections »</a></p>
+            </div>
+            <div class="col-lg-6 text-center pt-3">
+                <img class="object-fit-contain bg-white rounded-5 mb-2 shadow" src="{{ asset('assets/images/badges.png') }}" width="140" height="140" alt=""/>
+                <h2>Badges</h2>
+                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                <p><a class="btn btn-secondary" href="{{ path('app_products') }}" role="button">Voir les badges »</a></p>
+            </div>
+        </div>
+
+        <hr class="my-5">
+
+        <div class="flex flex-column text-center text-lg-start flex-lg-row row">
+            <div class="col-lg-7 d-lg-flex flex-lg-column">
+                <h2 class="mt-lg-auto vignette-heading">Des vêtements de qualités. <span class="text-muted">Pour vous accompagnez.</span></h2>
+                <p class="mb-lg-auto lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </div>
+            <div class="col-lg-5 d-lg-flex mt-3 mt-lg-0">
+                <img class="object-fit-cover rounded-3 shadow vignette w-100 my-lg-auto" src="{{ asset('assets/images/featurette-1.png') }}" alt=""/>
+            </div>
+        </div>
+
+        <hr class="my-5">
+
+        <div class="flex flex-column text-center text-lg-start flex-lg-row row">
+            <div class="col-lg-5 d-lg-flex  mb-3 mb-lg-0">
+                <img class="object-fit-cover rounded-3 shadow vignette w-100 my-lg-auto" src="{{ asset('assets/images/featurette-2.png') }}" alt=""/>
+            </div>
+            <div class="col-lg-7 d-lg-flex flex-lg-column">
+                <h2 class="mt-lg-auto vignette-heading">Des vêtements personalisables. <span class="text-muted">Qu'attendez vous pour essayer?</span></h2>
+                <p class="mb-lg-auto lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </div>
+        </div>
+
+        <hr class="my-5">
+
+        <div class="flex flex-column text-center text-lg-start flex-lg-row row">
+            <div class="col-lg-7 d-lg-flex flex-lg-column">
+                <h2 class="mt-lg-auto vignette-heading">Un style sans précédent. <span class="text-muted">Regardez par vous même.</span></h2>
+                <p class="mb-lg-auto lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </div>
+            <div class="col-lg-5 d-lg-flex mt-3 mt-lg-0">
+                <img class="object-fit-cover rounded-3 shadow vignette w-100 my-lg-auto" src="{{ asset('assets/images/featurette-3.png') }}" alt=""/>
+            </div>
+        </div>
+
+        <hr class="my-5">
+    </div>
+{% endblock %}

@@ -1,19 +1,62 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="fr" class="h-100">
     <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="icon" type="image/png" href="{{ asset('assets/images/logo.png') }}"/>
+        <title>{% block title %}{% endblock %} | Angel x Devil</title>
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+        <link href="{{ asset("assets/css/bootstrap.min.css") }}" rel="stylesheet">
+        <link href="{{ asset("assets/css/app.css") }}" rel="stylesheet">
+        <link href="{{ asset("assets/css/toastr.min.css") }}" rel="stylesheet">
+        {% block javascript %} {% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body class="h-100 d-flex flex-column p-0">
+        <header>
+            {% include 'partials/header.html.twig' %}
+        </header>
+
+        {% block content %} {% endblock %}
+
+        <footer class="mt-auto">
+            {% include "partials/footer.html.twig" %}
+        </footer>
+
+        {% if notifications is defined %}
+            {% for notification in notifications %}
+                <div class="{{ notification['type'] }}">{{ notification['message'] }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <script>
+            const LOGGED = {% if app.user %}true{% else %}false{% endif %};
+
+            const ROUTES = {
+                app_login: '{{ path('app_login') }}',
+                app_logout: '{{ path('app_logout') }}',
+                app_register: '{{ path('app_register') }}',
+                app_home: '{{ path('app_home') }}',
+                app_products: '{{ path('app_products') }}',
+                app_product: '{{ path('app_product', {'slug': 'slug'}) }}',
+                app_cart: '{{ path('app_cart') }}',
+                app_about: '{{ path('app_about') }}',
+                app_account: '{{ path('app_account') }}',
+                app_add_to_cart: '{{ path('app_add_to_cart') }}',
+                app_remove_from_cart: '{{ path('app_remove_from_cart') }}',
+                app_clear: '{{ path('app_clear_cart') }}',
+                app_contact: '{{ path('app_contact') }}',
+                app_admin: '{{ path('app_admin') }}',
+                app_delete_address: '{{ path('app_delete_address', {'id': 'id'}) }}',
+                app_edit_address: '{{ path('app_edit_address', {'id': 'id'}) }}',
+                app_add_address: '{{ path('app_add_address') }}'
+            }
+        </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://kit.fontawesome.com/ac8a9b7e7f.js" crossorigin="anonymous"></script>
+        <script src="{{ asset("assets/js/bootstrap.bundle.min.js") }}"></script>
+        <script src="{{ asset("assets/js/toastr.min.js") }}"></script>
+        <script src="{{ asset("assets/js/app.js") }}"></script>
     </body>
+
+    {% block script %} {% endblock %}
 </html>

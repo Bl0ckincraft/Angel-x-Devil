@@ -1,0 +1,61 @@
+{% extends 'bootstrap_5_layout.html.twig' %}
+
+{% block show_hide_password_row %}
+    <style>
+        .showHiddenPassword-wrapper {
+            position: relative;
+        }
+
+        .showHiddenPassword-toggle {
+            position: absolute;
+            top: 50%;
+            right: 2.4em;
+            transform: translateY(-45%);
+        }
+    </style>
+
+    <script>
+        function __togglePassword__{{ form.vars.id }}() {
+            const _passwordField = document.querySelector('#{{ form.vars.id }}');
+            const _showHideToggle = document.querySelector('#showHideToggle-{{ form.vars.id }}');
+            if (_showHideToggle.classList.contains('fa-eye-slash')) {
+                _showHideToggle.classList.remove('fa-eye-slash')
+                _showHideToggle.classList.add('fa-eye')
+                _passwordField.type = 'text'
+            } else {
+                _showHideToggle.classList.remove('fa-eye')
+                _showHideToggle.classList.add('fa-eye-slash')
+                _passwordField.type = 'password'
+            }
+        }
+    </script>
+
+    {%- if compound is defined and compound -%}
+        {%- set element = 'fieldset' -%}
+    {%- endif -%}
+    {%- set widget_attr = {} -%}
+    {%- set errors = form.vars.errors|length > 0 -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help", 'class': 'showHiddenPassword-widget'}} -%} {#  class 追加  #}
+    {%- endif -%}
+    <{{ element|default('div') }}{% with {attr: row_attr|merge({class: (row_attr.class|default('') ~ ' mb-3')|trim})} %}{{ block('attributes') }}{% endwith %}>
+    {{- form_label(form) -}}
+
+    {#  ウィジェット拡張  #}
+    <div class='showHiddenPassword-wrapper'>
+        {{- form_widget(form, widget_attr) -}}
+        <span class='showHiddenPassword-toggle' onclick='__togglePassword__{{ form.vars.id }}()'>
+            <i id='showHideToggle-{{ form.vars.id }}' class="fa-solid fa-eye-slash"></i>
+        </span>
+    </div>
+    {% if errors %}
+        <div class="invalid-feedback d-block">
+            {% for error in form.vars.errors %}
+                <span>{{ error.message }}</span>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {{- form_help(form) -}}
+    </{{ element|default('div') }}>
+{% endblock %}

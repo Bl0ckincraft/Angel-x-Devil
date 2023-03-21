@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% if type == 'add' %}Ajouter une adresse{% elseif type == 'edit' %}Modifier une adresse{% endif %}{% endblock %}
+
+{% block content %}
+    <div class="mx-auto mt-auto container">
+        <div class="mx-2 my-4 card rounded-4 border-0 shadow">
+            <div class="mx-5 my-3">
+                <h1 class="mb-4">{% if type == 'add' %}Ajouter une adresse{% elseif type == 'edit' %}Modifier une adresse{% endif %}</h1>
+
+                {{ form_start(form) }}
+                    <div class="d-md-flex flex-md-wrap">
+                        <div class="col-md-12">
+                            <div class="mx-2">
+                                {{ form_row(form.name) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mx-2">
+                                {{ form_row(form.firstname) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mx-2">
+                                {{ form_row(form.lastname) }}
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mx-2">
+                                {{ form_row(form.address) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mx-2">
+                                {{ form_row(form.postal) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mx-2">
+                                {{ form_row(form.city) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mx-2">
+                                {{ form_row(form.country) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mx-2">
+                                {{ form_row(form.phone) }}
+                            </div>
+                        </div>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block content %}
+    <div class="flex-grow-1 bg-white d-flex flex-column">
+        <div class="container my-3">
+            <h1>Mon compte</h1>
+            <span>{{ app.user.firstName }}, bienvenue dans votre espace membre.</span><br/>
+            <span>C'est dans cet espace que vous allez pouvoir gérer toutes vos informations personnelles.</span>
+
+            <hr class="my-4">
+
+            <h3>Gérer mes adresses</h3>
+
+            {% if app.user.addresses|length > 0 %}
+                <div class="d-flex flex-wrap py-2 mb-3">
+                    {% for address in app.user.addresses %}
+                        <div class="col-lg-4 col-md-6 col-12 h-auto d-flex">
+                            <div class="w-100 shadow m-3 mb-5 mb-md-3 bg-white rounded-3 p-3 d-flex flex-column h-auto">
+                                <span class="address-title text-center">{{ address.name }}</span>
+                                <hr>
+                                <div class="mx-3">
+                                    <span class="address-name text-left">{{ address.firstName }} {{ address.lastName }}</span><br/>
+                                    <span class="address-address text-left">{{ address.address }},</span><br/>
+                                    <span class="address-details text-left">{{ address.postal }} - {{ address.city}} - {{ address.country }}</span>
+                                </div>
+                                <hr>
+                                <div class="d-md-flex flex-md-wrap">
+                                    <div class="col-md-6 text-center">
+                                        <a href="{{ path('app_edit_address', {'id': address.id}) }}" class="link-primary">Modifier</a>
+                                    </div>
+                                    <div class="col-md-6 text-center mt-2 mt-md-0">
+                                        <a href="{{ path('app_delete_address', {'id': address.id}) }}" class="link-primary">Supprimer</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="mb-3">
+                    <span>Vous n'avez pas encore défini d'adresse.</span>
+                </div>
+            {% endif %}
+
+            <a href="{{ path('app_add_address') }}" class="mx-2 btn btn-primary">Ajouter une nouvelle adresse</a>
+
+            <hr class="my-4">
+
+            <h3>Suivre mes commandes</h3>
+
+            {% if paid_orders|length > 0 %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Référence</th>
+                            <th scope="col">Passée le</th>
+                            <th scope="col">Produit</th>
+                            <th scope="col">Total</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in paid_orders %}
+                            <tr>
+                                <td><span class="badge bg-secondary">{{ order.reference }}</span></td>
+                                <td>{{ order.createdAt|date('d/m/Y') }}</td>
+                                <td>{{ order.orderData|length }}</td>
+                                <td>{{ (order.total / 100)|number_format(2, '.', ',') }} €</td>
+                                <td class="text-end"><a href="{{ path('app_order_show', {'reference': order.reference}) }}" class="link-secondary">Voir ma commande</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="mb-3">
+                    <span>Vous n'avez pas encore passé de commande.</span>
+                </div>
+
+                <a href="{{ path('app_products') }}" class="mx-2 btn btn-primary">Parcourir nos produits</a>
+            {% endif %}
+
+            <hr class="my-4">
+
+            <h3>Modifier mon mot de passe</h3>
+
+                {{ form_start(change_password_form) }}
+                    <div class="d-md-flex flex-md-wrap">
+                        <div class="col-md-12 px-2">
+                            {{ form_row(change_password_form.old_password) }}
+                        </div>
+                        <div class="col-md-6 px-2">
+                            {{ form_row(change_password_form.new_password.first) }}
+                        </div>
+                        <div class="col-md-6 px-2">
+                            {{ form_row(change_password_form.new_password.second) }}
+                        </div>
+                        <div class="mx-2 col-md-12 mb-3">
+                            <span class="cursor-pointer text-muted link-dark">Mot de passe oublié?</span>
+                        </div>
+                        <div class="mx-2">
+                            {{ form_row(change_password_form.submit) }}
+                        </div>
+                    </div>
+                {{ form_end(change_password_form) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,143 @@
+body {
+    background: #ececf1;
+}
+
+.order-form .form-check {
+    border-radius: var(--bs-border-radius-lg)!important;
+    margin-bottom: 1rem!important;
+    padding: 1rem!important;
+    padding-left: 3rem!important;
+    padding-right: 2rem!important;
+    box-shadow: 0 .5rem 1rem rgba(var(--bs-body-color-rgb),.15)!important;
+}
+
+.order-form .form-check-label {
+    width: 100%;
+}
+
+.register-container, .login-container {
+    max-width: 800px;
+}
+
+.address-name, .address-address, .address-details {
+    text-transform: capitalize;
+}
+
+.address-title {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 19px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.error, .success, .warning, .info {
+    display: none!important;
+}
+
+.notification-bar {
+    max-width: 400px;
+}
+
+.vignette {
+    max-width: 500px;
+    max-height: 500px;
+}
+
+.user-dropdown {
+    min-width: 170px;
+    width: min-content;
+}
+
+.carousel {
+    margin-bottom: 4rem;
+}
+
+.carousel-caption {
+    bottom: 3rem;
+    z-index: 10;
+}
+
+.carousel-item {
+    height: 45rem;
+}
+
+.marketing .col-lg-4 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.marketing .col-lg-4 p {
+    margin-right: .75rem;
+    margin-left: .75rem;
+}
+
+.product-name {
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: bolder;
+}
+
+.product-description-xl {
+    text-align: justify;
+}
+
+.product-subtitle {
+    font-size: 13px;
+}
+
+.product-price {
+    font-size: 16px;
+}
+
+.product-name-xl {
+    font-size: 25px;
+    text-transform: capitalize;
+    font-weight: bolder;
+}
+
+.product-subtitle-xl {
+    font-size: 22px;
+}
+
+.product-image-xl {
+    max-width: 380px;
+    max-height: 380px;
+}
+
+.product-price-xl {
+    font-size: 24px;
+}
+
+.product-card {
+    transition: transform 400ms ease-in-out;
+}
+
+.product-card, a {
+    color: black;
+    text-decoration: none;
+}
+
+.product-card:hover {
+    transform: scale(1.1);
+}
+
+@media (min-width: 768px) {
+    .vertical-separator-border {
+        border-left: var(--bs-border-width) var(--bs-border-style) rgba(33, 37, 41, 0.25) !important;
+    }
+}
+
+@media (min-width: 40em) {
+    .carousel-caption p {
+        margin-bottom: 1.25rem;
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+
+    .vignette-heading {
+        font-size: 50px;
+    }
+}

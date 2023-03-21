@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Panier{% endblock %}
+
+{% block content %}
+    <div class="flex-grow-1 bg-white d-flex flex-column">
+        <div class="container">
+            <div class="mb-4 mt-3">
+                <h1 class="">Mon panier</h1>
+                <span>Retrouvez l'ensemble des produits que vous avez ajouté à votre panier.</span>
+            </div>
+            <div class="cart-elements-table {% if cart.getTotalQuantity() <= 0 %} d-none {% endif %}">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Produit</th>
+                            <th scope="col">Quantité</th>
+                            <th scope="col">Prix</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody class="cart-elements">
+                    {% for element in cart._getCartComplete() %}
+                        <tr class="cart-element cart-element-{{ element.product.id }}" data-element-id="{{ element.product.id }}">
+                            <td class="col-6 d-md-flex w-100 align-middle">
+                                <div class="col-md-4 d-flex flex-column">
+                                    <div class="my-auto mx-md-auto">
+                                        <img height="100px" src="/uploads/products/{{ element.product.illustration }}" alt=""/>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 d-flex flex-column vertical-separator-border ps-md-2">
+                                    <div class="my-auto">
+                                        <span class="product-name">{{ element.product.name }}</span><br/>
+                                        <span class="text-muted product-subtitle">{{ element.product.subtitle }}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="col-2 align-middle">
+                                <span>x <span class="cart-element-{{ element.product.id }}-quantity">{{ element.quantity }}</span></span><br/>
+                                <i data-on-success="refreshCart" data-abort-if-offline="true" data-product-id="{{ element.product.id }}" data-product-slug="{{ element.product.slug }}" class="fa-solid fa-plus mt-1 me-2 cursor-pointer btn-add-to-cart"></i>
+                                <i data-on-success="refreshCart" data-abort-if-offline="true" data-product-id="{{ element.product.id }}" data-product-slug="{{ element.product.slug }}" class="cursor-pointer fa-solid fa-minus mt-1 btn-remove-from-cart"></i>
+                                <i data-on-success="refreshCart" data-quantity="-1" data-abort-if-offline="true" data-product-id="{{ element.product.id }}" data-product-slug="{{ element.product.slug }}" class="cursor-pointer mt-1 ms-2 fa-solid fa-trash btn-remove-from-cart"></i>
+                            </td>
+                            <td class="col-2 align-middle">
+                                <span>{{ (element.product.price / 100)|number_format(2, '.', ',') }} €</span>
+                            </td>
+                            <td class="col-2 align-middle">
+                                <span><span class="cart-element-{{ element.product.id }}-total-price">{{ (element.product.price / 100 * element.quantity)|number_format(2, '.', ',') }}</span>€</span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="d-flex align-items-end flex-column my-3">
+                    <span><b>Nombre de produit:</b> <span class="cart-total-quantity">{{ cart.getTotalQuantity() }}</span></span>
+                    <span><b>Total de mon panier:</b> <span class="cart-total-price">{{ (cart._getTotalPrice() / 100)|number_format(2, '.', ',') }}</span> €</span>
+                </div>
+                <div class="d-flex justify-content-center mb-3">
+                    <a href="{{ path('app_order') }}" class="btn btn-success">Valider mon panier</a>
+                </div>
+            </div>
+            <div class="cart-empty {% if cart.getTotalQuantity() > 0 %} d-none {% endif %}">
+                <hr>
+
+                <h4>Votre panier est vide.</h4>
+            </div>
+        </div>
+    </div>
+{% endblock %}

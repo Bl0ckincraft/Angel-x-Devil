@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation de commande{% endblock %}
+
+{% block content %}
+    <div class="flex-grow-1 bg-white d-flex flex-column">
+        <div class="my-auto container">
+            <div class="py-1">
+                <h2>Confirmation de commande</h2>
+                <p>
+                    Bonjour <b>{{ app.user.firstname }}</b>, <br/><br/>
+                    Nous vous remercions pour votre commande n°<b>{{ order.reference }}</b><br/>
+                    Une confirmation vient de vous être envoyée par mail à l'adresse <b>{{ app.user.email }}</b><br/>
+
+                    <hr/>
+
+                    Votre commande sera livrée à l'adresse suivante :
+                    {{ order.deliveryAddress }}<br/>
+                    {{ order.deliveryPostal }} - {{ order.deliveryCity }} - {{ order.deliveryCountry }}
+
+                    <hr/>
+
+                    Pour suivre votre commande, rendez-vous dans votre <a class="link-primary" href="{{ path('app_account') }}">compte</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

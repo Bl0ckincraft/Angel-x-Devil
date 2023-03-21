@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ma commande{% endblock %}
+
+{% block content %}
+    <div class="flex-grow-1 bg-white d-flex flex-column">
+        <div class="container my-3">
+            <h1>Ma commande - {{ order.reference }}</h1>
+            <span>Retrouvez ici les informations relatives à votre commande.</span>
+            <hr>
+
+            <span><b>Commande passée le :</b> {{ order.createdAt|date('d/m/Y') }}</span><br/>
+            <span><b>Référence de ma commande :</b> <span class="bg-secondary badge">{{ order.reference }}</span></span><br/>
+            <span><b>Transporteur choisi :</b> {{ order.carrierName }}</span>
+
+            <hr>
+
+            <h3 class="mb-3">Détails de ma commande</h3>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Produit</td>
+                        <td>Quantité</td>
+                        <td>Prix unitaire</td>
+                        <td>Total</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in order.orderData %}
+                        <tr>
+                            <td>{{ data.productName }}</td>
+                            <td>{{ data.quantity }}</td>
+                            <td>{{ (data.productPrice / 100)|number_format(2, '.', ',') }} €</td>
+                            <td>{{ (data.totalPrice / 100)|number_format(2, '.', ',') }} €</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="mt-3 text-end">
+                <span><b>Sous-total :</b> {{ ((order.total - order.carrierPrice) / 100)|number_format(2, '.', ',') }}</span><br/>
+                <span><b>Livraison :</b> {{ (order.carrierPrice / 100)|number_format(2, '.', ',') }}</span><br/>
+                <span><b>Total :</b> {{ (order.total / 100)|number_format(2, '.', ',') }}</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}

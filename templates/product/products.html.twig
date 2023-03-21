@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos Produits{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="d-md-flex py-5">
+            <div class="col-md-3 p-2">
+                <div class="d-flex flex-column">
+                    <input class="form-control mb-3 product-filter" type="text" placeholder="Votre recherche..."/>
+                    {% for category in categories %}
+                        <label class="ms-3 mt-1">
+                            <input class="checkbox category-switch" type="checkbox" data-category="{{ category.name }}" checked/> {{ category.name }} ({{ category.products|length }})
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-9 d-sm-flex vertical-separator-border flex-wrap p-2">
+                {% for product in products %}
+                    <div class="col-lg-4 col-sm-6 h-auto d-flex product" data-category-filter="shown" data-search-filter="shown" data-name="{{ product.name }}" data-category="{{ product.category.name }}">
+                        <a href="{{ path('app_product', {'slug': product.slug}) }}" class="w-100 shadow m-3 mb-5 mb-md-3 bg-white rounded-3 p-3 d-flex flex-column text-center h-auto product-card">
+                            <img class="h-auto w-100" src="/uploads/products/{{ product.illustration }}" alt=""/>
+                            <span class="product-name">{{ product.name }}</span>
+                            <span class="product-subtitle mb-2">{{ product.subtitle }}</span>
+                            <span class="product-price mt-auto">{{ (product.price / 100)|number_format(2, '.', ',') }}€</span>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
