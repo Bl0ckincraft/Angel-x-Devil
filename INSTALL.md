@@ -13,16 +13,6 @@ git stash
 git merge
 ```
 
-## Install packages
-
-```bash
-# Install additional packages
-composer require easycorp/easyadmin-bundle
-composer require stripe/stripe-php
-# Then install default project packages
-composer install
-```
-
 ## Stripe setup
 
 You also need to create a stripe account in order to accept payment with this website. <br/>
@@ -43,6 +33,7 @@ APP_SECRET=""
 
 # Database could be generate user, in this case try to check if pdo-mysql php extension was enabled
 # (remove the ';' behind 'extension=pdo_mysql' in php.ini file)
+# If your database password contains special chars, use url_encode() function and replace % by %%
 DATABASE_URL="mysql://user:password@ip:port/dbname?serverVersion=8&charset=utf8mb4"
 
 MESSENGER_TRANSPORT_DSN="doctrine://default?auto_setup=0"
@@ -51,6 +42,13 @@ STRIPE_SECRET_KEY="" # Your stripe secret key
 STRIPE_PUBLIC_KEY="" # Your stripe public key
 STRIPE_SESSION_WEBHOOK_SECRET_KEY="" # Webhooks are in same order than upper
 DOMAIN="" # Like 'https://my_domain:my_port'
+```
+
+## Install packages
+
+```bash
+# Then install default project packages
+composer install
 ```
 
 ## Init database
