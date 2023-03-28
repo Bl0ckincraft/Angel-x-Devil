@@ -60,8 +60,8 @@
                             </ul>
                         </div>
                     {% else %}
-                        <button type="button" class="btn btn-outline-primary me-2" onclick="window.location.href='{{ path('app_login') }}';">Se connecter</button>
-                        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ path('app_register') }}';">S'inscrire</button>
+                        <a type="button" class="btn btn-outline-primary me-2" href="{{ path('app_login') }}">Se connecter</a>
+                        <a type="button" class="btn btn-primary" href="{{ path('app_register') }}">S'inscrire</a>
                     {% endif %}
                 </div>
             </div>

@@ -12,6 +12,8 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -19,7 +21,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractAppController
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager, private MailerInterface $mailer)
     {
 
     }
@@ -48,6 +50,14 @@ class SecurityController extends AbstractAppController
 
             $this->entityManager->persist($user);
             $this->entityManager->flush();
+
+            $mail = (new Email())
+                ->from('noreply@angel-x-devil.fr')
+                ->to($user->getEmail())
+                ->subject('Création de compte')
+                ->text('Vous avez bien créer un compte.');
+
+            $this->mailer->send($mail);
 
             return $this->redirectToRoute('app_login', $request->query->all());
         }
