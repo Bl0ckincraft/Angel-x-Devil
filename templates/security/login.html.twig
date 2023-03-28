@@ -1,20 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connection{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block content %}
     <div class="mx-auto mt-auto container login-container">
         <div class="mx-2 my-4 card rounded-4 border-0 shadow">
             <div class="mx-5 my-3">
-                <h1 class="mb-4">Connection</h1>
+                <h1 class="mb-4">Connexion</h1>
 
                 <form method="post" class="row">
                     <style>
                         .showHiddenPassword-toggle {
                             position: absolute;
                             top: 50%;
-                            right: 1.5em;
+                            right: 1em;
                             transform: translateY(-50%);
+                        }
+
+                        #inputPassword {
+                            padding-right: calc(1.5em + .75rem + .25em)!important;
                         }
                     </style>
 

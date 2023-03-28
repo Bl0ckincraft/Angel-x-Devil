@@ -14,7 +14,7 @@ class OrderData
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'orderData')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn]
     private ?Order $associatedOrder = null;
 
     #[ORM\Column(length: 255)]
