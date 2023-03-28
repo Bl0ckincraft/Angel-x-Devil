@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -52,10 +53,10 @@ class SecurityController extends AbstractAppController
             $this->entityManager->flush();
 
             $mail = (new Email())
-                ->from('noreply@angel-x-devil.fr')
+                ->from(new Address('noreply@angel-x-devil.fr', 'Angel x Devil'))
                 ->to($user->getEmail())
-                ->subject('Création de compte')
-                ->text('Vous avez bien créer un compte.');
+                ->subject('Création de votre compte')
+                ->text('Votre compte a bien été créer !');
 
             $this->mailer->send($mail);
 
