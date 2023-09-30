@@ -21,6 +21,8 @@ class AdminMailController extends AbstractController
         $admin_email_password = $user->getAdminEmailPassword();
 
         $mails = [];
+        $mailsIds = null;
+        $mailbox = null;
 
         if ($admin_email != null && $admin_email_password != null) {
             $hostname = '{angel-x-devil.fr:993/imap/ssl/novalidate-cert}INBOX'; // Todo : remove 'novalidate-cert'
@@ -29,15 +31,15 @@ class AdminMailController extends AbstractController
                 $mailbox = new Mailbox($hostname, $admin_email, $this->decryptPassword($admin_email_password));
                 $mailsIds = $mailbox->searchMailbox();
 
-                for ($i = 0; $i < count($mailsIds) and $i < 2; $i++) {
+                for ($i = 0; $i < count($mailsIds) and $i < 10; $i++) {
                     $mails[] = $mailbox->getMail($mailsIds[$i], false);
                 }
             } catch (Exception $e) {
-
+                dd($e);
             }
         }
 
-        dd($mails);
+        dd($mailbox, $mailsIds, $mails);
 
         return $this->render('admin/mail/mailbox.html.twig', [
             'mails' => $mails
