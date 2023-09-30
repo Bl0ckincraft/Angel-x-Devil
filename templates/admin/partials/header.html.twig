@@ -1,0 +1,58 @@
+<div class="bg-white pb-1 shadow">
+    <div class="container">
+        <nav class="navbar navbar-expand-md d-flex flex-wrap align-items-center justify-content-center justify-content-between py-3 mb-4 border-bottom">
+            <span class="d-flex align-items-center mb-2 mb-md-0">
+                <a href="{{ path('app_home') }}">
+                    <img src="{{ asset('assets/images/logo.png') }}" height="70" role="img" aria-label="Titre" alt="Titre"/>
+                </a>
+            </span>
+
+            <button class="navbar-toggler collapsed border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="flex-column flex-md-row nav col-12 col-md-auto mb-2 mb-md-0 mx-auto">
+                    <li class="nav-item">
+                        <a href="{{ path('app_admin') }}" class="nav-link px-2 link-dark text-center">Dashboard</a>
+                    </li>
+                    {% if app.user and app.user.getAdminEmail() and app.user.getAdminEmail() is not empty %}
+                        <li class="nav-item">
+                            <a href="{{ path('app_admin_mailbox') }}" class="nav-link px-2 link-dark text-center">Boîte Mail</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <div class="flex-row text-center">
+                    {% if app.user %}
+                        <div class="dropdown-center mx-auto mx-md-0 user-dropdown">
+                            <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-user"></i> {{ app.user.firstname }} {{ app.user.lastname }}
+                            </button>
+                            <ul class="dropdown-menu shadow dropdown-menu-md-start" style="left: 0; right: 0">
+                                <li>
+                                    <a class="dropdown-item d-flex gap-2 align-items-center" href="{{ path('app_account') }}">
+                                        <i class="fa-solid fa-gear"></i>
+                                        Mon compte
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex gap-2 align-items-center" href="{{ path('app_home') }}">
+                                        <i class="fa-solid fa-house"></i>
+                                        Retour au site
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="text-danger dropdown-item dropdown-item-danger d-flex gap-2 align-items-center" href="{{ path('app_logout') }}">
+                                        <i class="fa-solid fa-right-from-bracket"></i>
+                                        Se déconnecter
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>

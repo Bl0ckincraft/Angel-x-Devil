@@ -47,7 +47,7 @@ class StripeController extends AbstractController
             }
 
             if ($session['payment_status'] != 'paid') {
-                return new Response('Order not paid, so juste skip event');
+                return new Response('Order not paid, so just skip event');
             }
 
             $cart = $order->getUser()->getCart();

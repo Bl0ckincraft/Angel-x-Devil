@@ -63,6 +63,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[PhoneNumber]
     private ?string $phone = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $admin_email = null;
+
+    #[ORM\Column(length: 2000, nullable: true)]
+    private ?string $admin_email_password = null;
+
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
@@ -247,6 +253,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getAdminEmail(): ?string
+    {
+        return $this->admin_email;
+    }
+
+    public function setAdminEmail(?string $admin_email): self
+    {
+        $this->admin_email = $admin_email;
+
+        return $this;
+    }
+
+    public function getAdminEmailPassword(): ?string
+    {
+        return $this->admin_email_password;
+    }
+
+    public function setAdminEmailPassword(?string $admin_email_password): self
+    {
+        $this->admin_email_password = $admin_email_password;
 
         return $this;
     }
