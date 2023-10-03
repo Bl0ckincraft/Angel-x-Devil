@@ -141,3 +141,17 @@ body {
         font-size: 50px;
     }
 }
+
+.admin-case {
+    max-width: 200px;
+}
+
+.admin-case-link {
+    background-color: #EEEEEE;
+    border-radius: 0.8rem;
+    transition: ease-in-out .5s;
+}
+
+.admin-case-link:hover {
+    background-color: #E5E5E5;
+}

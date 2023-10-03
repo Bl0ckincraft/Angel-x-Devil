@@ -1,0 +1,11 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block content %}
+    {% if app.user and app.user.getAdminEmail() and app.user.getAdminEmail() is not empty %}
+        {% block mail_content %} {% endblock %}
+    {% else %}
+        <div class="mx-auto mt-auto container">
+            <h3 class="text-center text-dark">Vous ne disposez pas d'adresse email chez nous.</h3>
+        </div>
+    {% endif %}
+{% endblock %}

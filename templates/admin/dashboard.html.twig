@@ -3,5 +3,41 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
+    <div class="w-100 h-100 bg-white bg-opacity-75 d-flex">
+        <div class="my-auto container">
+            <div class="my-3 mx-3 d-flex flex-column">
+                <h1 class="text-center text-dark">Angel x Devil</h1>
 
+                <div class="d-flex">
+                    <span class="text-dark text-center mx-auto">Bienvenue dans l'espace de gestion du site, vous êtes actuellement connecté en tant que {{ app.user.getFirstName()|capitalize }} {{ app.user.getLastName()|upper }}.</span>
+                </div>
+
+                {% set actions = [
+                    ['app_admin_product_manager', 'Gérer les produits', 'fa-shirt'],
+                    ['app_admin_account_manager', 'Gérer les comptes', 'fa-user'],
+                    ['app_admin_order_manager', 'Gérer les commandes', 'fa-truck-fast'],
+                    ['app_admin_site_stats', 'Voir les stats du site', 'fa-chart-column']
+                ] %}
+
+                {% if app.user and app.user.getAdminEmail() and app.user.getAdminEmail() is not empty %}
+                    {% set actions = actions|merge([['app_admin_mailbox', 'Accéder à la boite mail', 'fa-envelope']]) %}
+                {% endif %}
+
+                <div class="d-flex flex-row flex-wrap mx-2 mx-md-4 mx-lg-5 justify-content-center mt-4">
+                    {% for action in actions %}
+                        <div class="col-6 admin-case p-2 text-center">
+                            <a class="link-dark w-100 h-100 d-flex flex-column admin-case-link" href="{{ path(action[0]) }}">
+                                <div class="px-3 py-4 px-sm-4 d-flex flex-column mx-auto my-auto">
+                                    {{ action[1] }}
+                                    <div class="mt-4 mb-3">
+                                        <span class="fa-solid {{ action[2] }} fa-2xl"></span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
