@@ -3,5 +3,11 @@
 {% block title %}Mail{% endblock %}
 
 {% block mail_content %}
-
+    {% if mail %}
+        {{ dump(mail) }}
+    {% else %}
+        <div class="mx-auto my-auto container">
+            <h3 class="text-center text-dark">Désolé, cet email est introuvable.</h3>
+        </div>
+    {% endif %}
 {% endblock %}

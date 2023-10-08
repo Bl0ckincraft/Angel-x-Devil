@@ -319,3 +319,21 @@ function refreshCart(data) {
         });
     }
 }
+
+$('.mail-navbar-switch').click(function () {
+    var active = $(this).data('active')
+
+    if (active) {
+        $(this).removeClass('mail-navbar-switch-active')
+        $('.mail-navbar').each(function () {
+            $(this).removeClass('mail-navbar-active')
+        })
+    } else {
+        $(this).addClass('mail-navbar-switch-active')
+        $('.mail-navbar').each(function () {
+            $(this).addClass('mail-navbar-active')
+        })
+    }
+
+    $(this).data('active', !active)
+})

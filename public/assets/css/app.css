@@ -1,3 +1,6 @@
+@import "bootstrap.min.css";
+@import "toastr.min.css";
+
 body {
     background: #ececf1;
 }
@@ -154,4 +157,206 @@ body {
 
 .admin-case-link:hover {
     background-color: #E5E5E5;
+}
+
+.mail-navbar-child {
+    margin: auto 0 auto 0;
+}
+
+.mail-navbar {
+    overflow-x: hidden;
+    width: 0;
+    transition: width ease-in-out .5s;
+    align-content: center;
+    position: fixed;
+    padding: 0;
+    background-color: #FCFCFCCC;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+}
+
+.mail-navbar-active {
+    width: 100%;
+    padding: 50px 30px;
+}
+
+.mail-nav-button {
+    white-space: nowrap;
+    text-align: center;
+    cursor: pointer;
+    margin: 0 20px;
+    padding: 10px 10px;
+    color: #151515;
+    font-weight: 500;
+    font-size: 16px;
+    transition: ease-in-out .5s;
+    position: relative;
+}
+
+.mail-nav-button::after {
+    content: "";
+    position: absolute;
+    margin: 0 auto 0 auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 0;
+    height: 2px;
+    background-color: #505050;
+    transition: width 0.5s ease-in-out;
+    transform-origin: left;
+    pointer-events: none;
+}
+
+.mail-nav-button:hover::after {
+    width: 100%;
+}
+
+.mail-content-part {
+    background-color: #FCFCFCAA;
+}
+
+.mailbox-title {
+    margin: auto;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.mailbox-user {
+    margin: auto;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.mailbox-content {
+    min-height: 100%;
+    height: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+    padding: 40px 25px;
+}
+
+.mail-preview {
+    width: 100%;
+    padding: calc(3px + 1rem);
+    transition: background-color ease-in-out 0.3s;
+    background-color: #00000000;
+    cursor: pointer;
+}
+
+.mail-preview:hover {
+    background-color: #00000010;
+}
+
+.mail-preview span {
+    padding: 4px;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: auto 0 auto 0;
+}
+
+.mail-preview .mail-from-name, .mail-preview .mail-from-subject {
+    width: 100%;
+}
+
+.mail-preview .mail-from {
+    width: calc(100% - (10ch + 2*4px + 20px));
+}
+
+.mail-preview .mail-from-date{
+    width: calc(10ch + 2*4px);
+}
+
+.mail-navbar-switch {
+    z-index: 3;
+    padding: 20px;
+    aspect-ratio: 1/1;
+    border-radius: 2.5rem;
+    position: fixed;
+    top: 170px;
+    left: 20px;
+    background-color: #EEEEEE;
+    transition: background-color, top ease-in-out 0.5s;
+}
+
+.mail-navbar-switch-active {
+    top: 20px;
+}
+
+.mail-navbar-switch i {
+    padding: 15px 0 0 0;
+}
+
+.mail-navbar-switch:hover {
+    background-color: #F1F1F1;
+}
+
+.seen-indicator {
+    width: 10px;
+    height: 10px;
+    margin: auto 5px auto 15px;
+    background-color: var(--bs-link-color);
+    border-radius: 2.5rem;
+}
+
+.seen-indicator.seen {
+    background-color: #707070;
+}
+
+@media (min-width: 768px) {
+    .mail-navbar-switch {
+        display: none;
+    }
+
+    .mail-navbar-child {
+        margin: inherit;
+    }
+
+    .mail-navbar {
+        position: inherit;
+        background-color: #FCFCFCEE;
+        box-shadow: 10px 0 10px rgba(0, 0, 0, 0.1);
+        padding: 50px 30px;
+        width: auto;
+        z-index: inherit;
+    }
+
+    .mail-nav-button {
+        text-align: inherit;
+        right: inherit;
+        margin: inherit;
+    }
+
+    .mail-nav-button::after {
+        margin: inherit;
+        right: inherit;
+    }
+
+    .mailbox-content {
+        padding: 40px 50px;
+    }
+
+    .mailbox-title {
+        margin: auto auto auto 0;
+        text-align: start;
+    }
+
+    .mailbox-user {
+        margin: auto 0 auto auto;
+        text-align: end;
+    }
+
+    .mail-preview .mail-from-name {
+        width: calc(20ch + 2*4px + 10px);
+    }
+
+    .mail-preview .mail-from-subject {
+        width: calc(100% - (20ch + 2*4px + 10px + 20px));
+    }
 }

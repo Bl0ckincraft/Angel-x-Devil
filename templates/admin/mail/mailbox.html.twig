@@ -1,7 +1,30 @@
 {% extends 'admin/mail/mail_base.html.twig' %}
 
-{% block title %}Boîte Mail{% endblock %}
+{% block title %}{{ boxName }}{% endblock %}
 
 {% block mail_content %}
+    <div class="mailbox-content w-100">
+        <div class="d-flex flex-column">
+            <div class="w-100 d-flex flex-md-row flex-column">
+                <span class="mailbox-title">{{ boxName }}</span>
+                <span class="mailbox-user">{{ app.user.getAdminEmail() }}</span>
+            </div>
+            <div class="d-flex flex-column p-3 mt-4 bg-white rounded-4 shadow">
+                {% for m in mails %}
+                    <a class="mail-preview w-100 d-flex flex-row rounded-2" href="{{ path('app_admin_mailbox_read', {'id': m.id, 'box': box}) }}">
+                        <span class="seen-indicator {% if m.seen %} seen {% endif %}"></span>
+                        <span class="d-flex flex-md-row flex-column mail-from">
+                            <span class="mail-from-name">{{ m.fromName }}</span>
+                            <span class="mail-from-subject">{{ m.subject }}</span>
+                        </span>
+                        <span class="mail-from-date">{{ m.date }}</span>
+                    </a>
 
+                    {% if loop.last == false %}
+                        <hr class="mx-0 my-2"/>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

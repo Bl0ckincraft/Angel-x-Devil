@@ -2,7 +2,37 @@
 
 {% block content %}
     {% if app.user and app.user.getAdminEmail() and app.user.getAdminEmail() is not empty %}
-        {% block mail_content %} {% endblock %}
+        <div class="d-md-flex flex-md-row h-100 overflow-hidden">
+            <div class="mail-navbar-switch">
+                <i class="fa-solid fa-envelopes-bulk fa-xl"></i>
+            </div>
+            <div class="mail-navbar d-flex flex-column" data-active="false">
+                <div class="mail-navbar-child">
+                    <div class="mail-nav-button">
+                        <a href="{{ path('app_admin_mailbox') }}">Boîte de réception</a>
+                    </div>
+                    <div class="mail-nav-button">
+                        <a href="{{ path('app_admin_mailbox_sent') }}">Envoyés</a>
+                    </div>
+                    <div class="mail-nav-button">
+                        <a href="{{ path('app_admin_mailbox_spam') }}">Spams</a>
+                    </div>
+                    <div class="mail-nav-button">
+                        <a href="{{ path('app_admin_mailbox_drafts') }}">Brouillons</a>
+                    </div>
+                    <div class="mail-nav-button">
+                        <a href="{{ path('app_admin_mailbox_trash') }}">Corbeille</a>
+                    </div>
+                    <hr/>
+                    <div class="mail-nav-button">
+                        <a href="{{ path('app_admin_mailbox') }}">Nouveau message</a>
+                    </div>
+                </div>
+            </div>
+            <div class="d-md-flex mail-content-part flex-md-grow-1">
+                {% block mail_content %} {% endblock %}
+            </div>
+        </div>
     {% else %}
         <div class="mx-auto mt-auto container">
             <h3 class="text-center text-dark">Vous ne disposez pas d'adresse email chez nous.</h3>
