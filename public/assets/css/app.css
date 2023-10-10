@@ -243,7 +243,7 @@ body {
 
 .mail-preview {
     width: 100%;
-    padding: calc(3px + 1rem);
+    padding: 5px;
     transition: background-color ease-in-out 0.3s;
     background-color: #00000000;
     cursor: pointer;
@@ -254,7 +254,7 @@ body {
 }
 
 .mail-preview span {
-    padding: 4px;
+    padding: 1px;
     overflow-x: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -270,6 +270,7 @@ body {
 }
 
 .mail-preview .mail-from-date{
+    font-size: 13px;
     width: calc(10ch + 2*4px);
 }
 
@@ -300,7 +301,7 @@ body {
 .seen-indicator {
     width: 10px;
     height: 10px;
-    margin: auto 5px auto 15px;
+    margin: auto 15px auto 5px!important;
     background-color: var(--bs-link-color);
     border-radius: 2.5rem;
 }
@@ -352,11 +353,23 @@ body {
         text-align: end;
     }
 
+    .mail-preview {
+        padding: calc(3px + 1rem);
+    }
+
+    .mail-preview span {
+        padding: 4px;
+    }
+
     .mail-preview .mail-from-name {
         width: calc(20ch + 2*4px + 10px);
     }
 
     .mail-preview .mail-from-subject {
         width: calc(100% - (20ch + 2*4px + 10px + 20px));
+    }
+
+    .mail-preview .mail-from-date{
+        font-size: inherit;
     }
 }
