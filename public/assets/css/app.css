@@ -280,14 +280,14 @@ body {
     aspect-ratio: 1/1;
     border-radius: 2.5rem;
     position: fixed;
-    top: 170px;
-    left: 20px;
+    bottom: 20px;
+    right: 20px;
     background-color: #EEEEEE;
-    transition: background-color, top ease-in-out 0.5s;
+    transition: background-color, bottom ease-in-out 0.5s;
 }
 
 .mail-navbar-switch-active {
-    top: 20px;
+    bottom: calc(100vh - 20px - 70px); <!-- Height of screen minus padding from top and minus height of element -->
 }
 
 .mail-navbar-switch i {
@@ -310,7 +310,54 @@ body {
     background-color: #707070;
 }
 
-@media (min-width: 768px) {
+.conditions-title {
+    margin: 20px auto 40px auto;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.conditions-part-title {
+    text-transform: uppercase;
+    font-size: 19px;
+    font-weight: 600;
+}
+
+.conditions-part-content {
+    text-align: justify;
+    font-size: 15px;
+    margin-bottom: 50px;
+}
+
+.link-dark {
+    color:#212529!important;
+    transition: color ease-in-out .3s;
+}
+
+.link-dark:hover {
+    color:#616569!important
+}
+
+@media (min-width: 750px) {
+    .mail-preview .mail-from-date {
+        font-size: inherit;
+    }
+
+    .conditions-title {
+        font-size: 26px;
+    }
+
+    .conditions-part-title {
+        font-size: 21px;
+    }
+
+    .conditions-part-content {
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 1050px) {
     .mail-navbar-switch {
         display: none;
     }
@@ -326,6 +373,11 @@ body {
         padding: 50px 30px;
         width: auto;
         z-index: inherit;
+        flex-direction: column;
+    }
+
+    .email-user-box {
+        flex-direction: row;
     }
 
     .mail-nav-button {
@@ -369,7 +421,7 @@ body {
         width: calc(100% - (20ch + 2*4px + 10px + 20px));
     }
 
-    .mail-preview .mail-from-date{
-        font-size: inherit;
+    .mail-from {
+        flex-direction: row;
     }
 }

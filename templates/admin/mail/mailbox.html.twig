@@ -4,27 +4,33 @@
 
 {% block mail_content %}
     <div class="mailbox-content w-100">
-        <div class="d-flex flex-column">
-            <div class="w-100 d-flex flex-md-row flex-column">
+        <div class="d-flex flex-column" style="min-height: 100%">
+            <div class="w-100 d-flex flex-column email-user-box">
                 <span class="mailbox-title">{{ boxName }}</span>
                 <span class="mailbox-user">{{ app.user.getAdminEmail() }}</span>
             </div>
-            <div class="d-flex flex-column p-3 mt-4 bg-white rounded-4 shadow">
-                {% for m in mails %}
-                    <a class="mail-preview w-100 d-flex flex-row rounded-2" href="{{ path('app_admin_mailbox_read', {'id': m.id, 'box': box}) }}">
-                        <span class="seen-indicator {% if m.seen %} seen {% endif %}"></span>
-                        <span class="d-flex flex-md-row flex-column mail-from">
-                            <span class="mail-from-name">{{ m.fromName }}</span>
-                            <span class="mail-from-subject">{{ m.subject }}</span>
-                        </span>
-                        <span class="mail-from-date">{{ m.date }}</span>
-                    </a>
+            {% if mails is not empty %}
+                <div class="d-flex flex-column p-3 my-4 bg-white rounded-4 shadow mails-container">
+                    {% for m in mails %}
+                        <a class="mail-preview w-100 d-flex flex-row rounded-2" href="{{ path('app_admin_mailbox_read', {'id': m.id, 'box': box}) }}">
+                            <span class="seen-indicator {% if m.seen %} seen {% endif %}"></span>
+                            <span class="d-flex flex-column mail-from">
+                                <span class="mail-from-name">{{ m.fromName }}</span>
+                                <span class="mail-from-subject">{{ m.subject }}</span>
+                            </span>
+                            <span class="mail-from-date">{{ m.date }}</span>
+                        </a>
 
-                    {% if loop.last == false %}
-                        <hr class="mx-0 my-2"/>
-                    {% endif %}
-                {% endfor %}
-            </div>
+                        {% if loop.last == false %}
+                            <hr class="mx-0 my-2"/>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="d-flex my-auto mx-auto p-4">
+                    <h3 class="text-center text-dark">Vous n'avez pas reçu de message dans cette boîte.</h3>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

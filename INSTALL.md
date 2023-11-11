@@ -64,3 +64,13 @@ symfony console doctrine:migrations:migrate
 composer dump-env prod
 APP_ENV=PROD APP_DEBUG=0 php/bin console cache:clear
 ```
+
+## Notes
+
+You should need to activate some php extensions like :
+```ini
+extension=fileinfo
+extension=imap
+extension=openssl
+extension=pdo_mysql
+```

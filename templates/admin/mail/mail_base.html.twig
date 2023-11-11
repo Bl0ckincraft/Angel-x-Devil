@@ -6,26 +6,26 @@
             <div class="mail-navbar-switch">
                 <i class="fa-solid fa-envelopes-bulk fa-xl"></i>
             </div>
-            <div class="mail-navbar d-flex flex-column" data-active="false">
+            <div class="mail-navbar d-flex justify-content-center" data-active="false">
                 <div class="mail-navbar-child">
                     <div class="mail-nav-button">
-                        <a href="{{ path('app_admin_mailbox') }}">Boîte de réception</a>
+                        <a href="{{ path('app_admin_mailbox', {'box': 'inbox'}) }}">Boîte de réception</a>
                     </div>
                     <div class="mail-nav-button">
-                        <a href="{{ path('app_admin_mailbox_sent') }}">Envoyés</a>
+                        <a href="{{ path('app_admin_mailbox', {'box': 'sent'}) }}">Envoyés</a>
                     </div>
                     <div class="mail-nav-button">
-                        <a href="{{ path('app_admin_mailbox_spam') }}">Spams</a>
+                        <a href="{{ path('app_admin_mailbox', {'box': 'spams'}) }}">Spams</a>
                     </div>
                     <div class="mail-nav-button">
-                        <a href="{{ path('app_admin_mailbox_drafts') }}">Brouillons</a>
+                        <a href="{{ path('app_admin_mailbox', {'box': 'drafts'}) }}">Brouillons</a>
                     </div>
                     <div class="mail-nav-button">
-                        <a href="{{ path('app_admin_mailbox_trash') }}">Corbeille</a>
+                        <a href="{{ path('app_admin_mailbox', {'box': 'trash'}) }}">Corbeille</a>
                     </div>
                     <hr/>
                     <div class="mail-nav-button">
-                        <a href="{{ path('app_admin_mailbox') }}">Nouveau message</a>
+                        <a href="">Nouveau message</a>
                     </div>
                 </div>
             </div>

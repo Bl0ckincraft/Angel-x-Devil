@@ -18,7 +18,7 @@
                     </li>
                     {% if app.user and app.user.getAdminEmail() and app.user.getAdminEmail() is not empty %}
                         <li class="nav-item">
-                            <a href="{{ path('app_admin_mailbox') }}" class="nav-link px-2 link-dark text-center">Boîte Mail</a>
+                            <a href="{{ path('app_admin_mailbox', {'box': 'inbox'}) }}" class="nav-link px-2 link-dark text-center">Boîte Mail</a>
                         </li>
                     {% endif %}
                 </ul>
