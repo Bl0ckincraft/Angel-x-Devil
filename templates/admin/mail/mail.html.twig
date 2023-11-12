@@ -1,13 +1,45 @@
 {% extends 'admin/mail/mail_base.html.twig' %}
 
-{% block title %}Mail{% endblock %}
+{% block title %}{{ mail.subject }}{% endblock %}
 
 {% block mail_content %}
-    {% if mail %}
-        {{ dump(mail) }}
-    {% else %}
-        <div class="mx-auto my-auto container">
-            <h3 class="text-center text-dark">Désolé, cet email est introuvable.</h3>
-        </div>
-    {% endif %}
+        {% if mail %}
+            <div class="d-flex flex-column w-100 mail-container">
+                <div class="mail-container-in shadow flex-grow-1 d-flex flex-column">
+                    <div>
+
+                    </div>
+                    <div class="d-flex flex-column flex-grow-1">
+                        <span class="read-mail-subject text-md-start text-center mx-2">{{ mail.subject }}</span>
+                        <hr/>
+                        <div class="d-flex flex-column flex-sm-row mx-2">
+                            <div class="my-sm-auto">
+                                <span>{% if mail.fromName %}{{ mail.fromName }} {% endif %}<small>&lt;{{ mail.fromMail }}&gt;</small></span><br/>
+                                <span>À {% if app.user and app.user.adminEmail and app.user.adminEmail in mail.to|keys %} moi {% else %} {% if mail.to[mail.to|keys[0]] %}{{ mail.to[mail.to|keys[0]] }}{% endif %} <small>&lt;{{ mail.to|keys[0] }}&gt;</small>{% endif %}</span>
+                            </div>
+                            <div class="ms-sm-auto my-sm-auto">
+                                <span>{{ mail.date }}</span>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="mb-auto mx-2 overflow-auto">
+                            {% if mail.textHtml %}
+                                {{ mail.textHtml|raw }}
+                            {% else %}
+                                <p style="white-space: pre">{{ mail.textPlain }}</p>
+                            {% endif %}
+                        </div>
+                        <hr/>
+                        <div class="d-flex flex-row gap-2 mx-2">
+                            <a class="btn btn-outline-primary ms-auto ms-md-0">Répondre</a>
+                            <a class="btn btn-outline-primary me-auto me-md-0">Transférer</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="mx-auto my-auto container">
+                <h3 class="text-center text-dark">Désolé, cet email est introuvable.</h3>
+            </div>
+        {% endif %}
 {% endblock %}

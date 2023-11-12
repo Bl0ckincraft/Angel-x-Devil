@@ -339,7 +339,101 @@ body {
     color:#616569!important
 }
 
+.write-container {
+    overflow-y: scroll!important;
+    height: 100%!important;
+}
+
+.write-container-in {
+    padding: 15px;
+    background-color: #FAFAFA;
+}
+
+.mail-container {
+    overflow-y: scroll!important;
+    height: 100%!important;
+}
+
+.mail-container-in {
+    padding: 15px;
+    background-color: #FAFAFA;
+}
+
+.read-mail-subject {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    --bs-btn-bg: #5dade2;  /* Bleu clair */
+    --bs-btn-border-color: #5dade2;  /* Bleu clair */
+    --bs-btn-hover-bg: #4a90e2;  /* Bleu légèrement plus foncé au survol */
+    --bs-btn-hover-border-color: #4a90e2;  /* Bleu légèrement plus foncé au survol */
+    --bs-btn-active-bg: #4a90e2;  /* Bleu légèrement plus clair lors de l'activation */
+    --bs-btn-active-border-color: #4a90e2;  /* Bleu légèrement plus clair lors de l'activation */
+    --bs-btn-disabled-bg: #5dade2;  /* Bleu clair pour état désactivé */
+    --bs-btn-disabled-border-color: #5dade2;  /* Bleu clair pour état désactivé */
+}
+
+.btn-outline-primary {
+    --bs-btn-color: #5dade2;  /* Bleu clair pour le texte */
+    --bs-btn-border-color: #5dade2;  /* Bleu clair pour la bordure */
+    --bs-btn-hover-bg: #5dade2;  /* Bleu clair pour le fond au survol */
+    --bs-btn-hover-border-color: #5dade2;  /* Bleu clair pour la bordure au survol */
+    --bs-btn-active-bg: #5dade2;  /* Bleu clair pour le fond lors de l'activation */
+    --bs-btn-active-border-color: #5dade2;  /* Bleu clair pour la bordure lors de l'activation */
+    --bs-btn-disabled-color: #5dade2;  /* Bleu clair pour le texte en état désactivé */
+    --bs-btn-disabled-border-color: #5dade2;  /* Bleu clair pour la bordure en état désactivé */
+}
+
+.mail-add-button {
+    text-align: center;
+    padding: 10px;
+    width: 36px;
+    height: 36px;
+    aspect-ratio: 1/1;
+    border-radius: 2.5rem;
+    transition: background-color ease-in-out .3s;
+}
+
+.custom-file-input {
+    visibility: hidden;
+    width: 0;
+}
+
+.custom-file-label {
+    background-color: #FFFFFF;
+    border: solid 1px #808080;
+    border-radius: 3px;
+    padding: 5px;
+    cursor: pointer;
+    transition: background-color .3s ease-in-out;
+}
+
+.custom-file-label:hover {
+    background-color: #EFEFEF;
+}
+
+.mail-add-button:hover {
+    background-color: #EFEFEF;
+}
+
 @media (min-width: 750px) {
+    .write-container-in {
+        margin: 40px;
+        padding: 30px;
+        border-radius: 0.7rem;
+        background-color: #FFFFFF;
+    }
+
+    .mail-container-in {
+        margin: 40px;
+        padding: 30px;
+        border-radius: 0.7rem;
+        background-color: #FFFFFF;
+    }
+
     .mail-preview .mail-from-date {
         font-size: inherit;
     }
@@ -422,6 +516,6 @@ body {
     }
 
     .mail-from {
-        flex-direction: row;
+        flex-direction: row!important;
     }
 }

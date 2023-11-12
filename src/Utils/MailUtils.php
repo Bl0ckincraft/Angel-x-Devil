@@ -7,7 +7,9 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use PhpImap\Mailbox;
+use PHPMailer\PHPMailer\PHPMailer;
 use Symfony\Component\HttpKernel\KernelInterface;
+use function Webmozart\Assert\Tests\StaticAnalysis\null;
 
 class MailUtils
 {
@@ -34,12 +36,12 @@ class MailUtils
         ]
     ];
 
-    public static function readBox(string $email, string $decrypted_password, string $imapBoxName): array
+    public static function readBox(string $email, string $decrypted_password, string $imapBoxName, EntityManagerInterface $entityManager): array
     {
         $mails = [];
 
         if ($email != null && $decrypted_password != null) {
-            $hostname = '{angel-x-devil.fr:993/imap/ssl}'.$imapBoxName; // Todo : remove 'novalidate-cert'
+            $hostname = '{angel-x-devil.fr:993/imap/ssl}'.$imapBoxName;
 
             try {
                 $mailbox = new Mailbox($hostname, $email, $decrypted_password);
@@ -54,13 +56,23 @@ class MailUtils
 
                     $fromMail = str_replace(['<', '>'], '', explode(' ', $from)[sizeof(explode(' ', $from)) - 1]);
                     $fromName = substr_replace($from, '', -strlen(' <'.$fromMail.'>'));
+                    $toMail = $mailInfo->to ? str_replace(['<', '>'], '', explode(' ', $mailInfo->to)[sizeof(explode(' ', $mailInfo->to)) - 1]) : null;
+                    $toName = $mailInfo->to ? substr_replace($mailInfo->to, '', -strlen(' <'.$toMail.'>')) : null;
+
+                    $from = self::getAndUpdateUsers([$fromMail => null], $entityManager);
+                    $to = self::getAndUpdateUsers([$toMail => null], $entityManager);
+
+                    $fromMail = array_keys($from)[0];
+                    $fromName = array_values($from)[0] ?: $fromName;
+                    $toMail = array_keys($to)[0];
+                    $toName = array_values($to)[0] ?: $toName;
 
                     $mails[] = [
                         'id' => $mailInfo->uid,
                         'seen' => $mailInfo->seen == 1,
                         'subject' => $mailInfo->subject,
-                        'fromMail' => $fromMail == $email ? $mailInfo->to : $fromMail,
-                        'fromName' => $fromMail == $email ? $mailInfo->to : $fromName,
+                        'fromMail' => $fromMail == $email ? $toMail : $fromMail,
+                        'fromName' => $fromMail == $email ? $toName : $fromName,
                         'date' => gmdate('d/m/Y', $mailInfo->udate),
                         'size' => $size > 1024 ? $size > 1024 * 1024 ? round($size / (1024 * 1024)).'mo' : round($size / 1024).'ko' : $size.'o'
                     ];
@@ -73,24 +85,50 @@ class MailUtils
         return $mails;
     }
 
+    public static function readMailById(string $email, string $decrypted_password, string $messageId, EntityManagerInterface $entityManager, KernelInterface $kernel): array | null
+    {
+        $mail = null;
+
+        if ($email != null && $decrypted_password != null) {
+            $hostname = '{angel-x-devil.fr:993/imap/ssl}INBOX';
+            $imap = imap_open($hostname, $email, $decrypted_password);
+            $boxNames = imap_list($imap, '{angel-x-devil.fr:993/imap/ssl}', '*');
+
+            foreach ($boxNames as $box) {
+                $hostname = '{angel-x-devil.fr:993/imap/ssl}'.$box;
+                $mailbox = imap_open($hostname, $email, $decrypted_password);
+                $messages = imap_search($mailbox, 'HEADER Message-ID "' . $messageId . '"');
+
+                if ($messages) {
+                    $messageNumber = $messages[0];
+                    return self::readMail($email, $decrypted_password, $box, $messageNumber, $entityManager, $kernel);
+                }
+            }
+        }
+
+        return $mail;
+    }
+
     public static function readMail(string $email, string $decrypted_password, string $imapBoxName, int $id, EntityManagerInterface $entityManager, KernelInterface $kernel): array | null
     {
         $mail = null;
 
         if ($email != null && $decrypted_password != null) {
-            $hostname = '{angel-x-devil.fr:993/imap/ssl}' . $imapBoxName; // Todo : remove 'novalidate-cert'
+            $hostname = '{angel-x-devil.fr:993/imap/ssl}' . $imapBoxName;
 
             $mailbox = new Mailbox($hostname, $email, $decrypted_password);
             $mailData = $mailbox->getMail($id, true);
             $mailInfo = $mailbox->getMailsInfo([$id])[0];
 
+            $from = self::getAndUpdateUsers([$mailData->fromAddress => $mailData->fromName], $entityManager);
+
             $mail = [
                 'id' => $mailInfo->uid,
                 'seen' => $mailInfo->seen == 1,
                 'subject' => $mailInfo->subject,
-                'fromName' => $mailData->fromName,
-                'fromMail' => $mailData->fromAddress,
-                'date' => gmdate('d/m/Y', $mailInfo->udate),
+                'fromName' => array_values($from)[0],
+                'fromMail' => array_keys($from)[0],
+                'date' => gmdate('d/m/Y H:i', $mailInfo->udate),
                 'draft' => $mailInfo->draft == 1,
                 'deleted' => $mailInfo->deleted == 1,
                 'flagged' => $mailInfo->flagged == 1,
@@ -267,5 +305,45 @@ class MailUtils
 
         $entityManager->flush();
         return $result;
+    }
+
+    /**
+     * @throws \PHPMailer\PHPMailer\Exception
+     */
+    public static function sendMail(Mail $mail, string $username, string $decrypted_password): void
+    {
+        $mailer = new PHPMailer(true);
+
+        $mailer->isSMTP();
+        $mailer->Host = 'angel-x-devil.fr';
+        $mailer->SMTPAuth = true;
+        $mailer->Username = $username;
+        $mailer->Password = $decrypted_password;
+        $mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mailer->Port = 587;
+
+        $mailer->From = $mail->getFrom();
+        $mailer->FromName = $mail->getFromName();
+        $mailer->Subject = $mail->getSubject();
+        $mailer->Body = $mail->getTextHtml();
+        $mailer->AltBody = $mail->getTextPlain();
+
+        foreach ($mail->getTo() as $address => $name) {
+            $mailer->addAddress($address, name: $name['name']);
+        }
+
+        foreach ($mail->getCc() as $address => $name) {
+            $mailer->addCC($address, name: $name);
+        }
+
+        foreach ($mail->getCci() as $address => $name) {
+            $mailer->addBCC($address, name: $name);
+        }
+
+        foreach ($mail->getAttachments() as $path => $name) {
+            $mailer->addAttachment($path, name: $name ?: '');
+        }
+
+        $mailer->send();
     }
 }

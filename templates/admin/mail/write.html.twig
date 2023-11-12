@@ -1,0 +1,79 @@
+{% extends 'admin/mail/mail_base.html.twig' %}
+
+{% block title %}Nouveau Message{% endblock %}
+
+{% block mail_content %}
+        {{ form_start(form, {'attr': {'class': 'd-flex flex-column w-100 write-container'}}) }}
+        <div class="write-container-in shadow flex-grow-1 d-flex flex-column flex-md-row flex-md-wrap">
+            <div class="col-md-6 col-lg-4 col-12 p-3 d-flex flex-column gap-2">
+                <div class="d-flex flex-column">
+                    <span id="add-to-error" style="color: #DD2121; margin-bottom: 6px; display: none">L'email est invalide</span>
+                    <div class="d-flex flex-row">
+                        <div class="flex-grow-0">
+                            {{ form_label(form.to) }}
+                        </div>
+                        <input id="add-to-input" class="flex-grow-1 ms-3 me-1" type="email"/>
+                        <div class="flex-grow-0 my-auto">
+                            <span data-add-mail="to" class="mail-add-button fa-solid fa-plus"></span>
+                        </div>
+                    </div>
+                    {{ form_widget(form.to) }}
+                    {{ form_errors(form.to) }}
+                </div>
+
+                <div class="d-flex flex-column">
+                    <span id="add-cc-error" style="color: #DD2121; margin-bottom: 6px; display: none">L'email est invalide</span>
+                    <div class="d-flex flex-row">
+                        <div class="flex-grow-0">
+                            {{ form_label(form.cc) }}
+                        </div>
+                        <input id="add-cc-input" class="flex-grow-1 ms-3 me-1" type="email"/>
+                        <div class="flex-grow-0 my-auto">
+                            <span data-add-mail="cc"  class="mail-add-button fa-solid fa-plus"></span>
+                        </div>
+                    </div>
+                    {{ form_widget(form.cc) }}
+                    {{ form_errors(form.cc) }}
+                </div>
+
+                <div class="d-flex flex-column">
+                    <span id="add-cci-error" style="color: #DD2121; margin-bottom: 6px; display: none">L'email est invalide</span>
+                    <div class="d-flex flex-row">
+                        <div class="flex-grow-0">
+                            {{ form_label(form.cci) }}
+                        </div>
+                        <input id="add-cci-input" class="flex-grow-1 ms-3 me-1" type="email"/>
+                        <div class="flex-grow-0 my-auto">
+                            <span data-add-mail="cci"  class="mail-add-button fa-solid fa-plus"></span>
+                        </div>
+                    </div>
+                    {{ form_widget(form.cci) }}
+                    {{ form_errors(form.cci) }}
+                </div>
+
+                <div class="d-flex flex-column">
+                    <div class="d-flex flex-row">
+                        <div class="flex-grow-0">
+                            {{ form_label(form.attachments) }}
+                        </div>
+                        <label class="custom-file-label flex-grow-1 mx-3">Sélectionner un fichier
+                            <input id="attachment-input" class="flex-grow-1 ms-3 me-1 custom-file-input" type="file"/></label>
+                    </div>
+                    {{ form_widget(form.attachments) }}
+                    {{ form_errors(form.attachments) }}
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-8 col-12 p-3 d-flex flex-column">
+                {{ form_row(form.subject) }}
+                {{ form_row(form.textPlain) }}
+
+                <div class="d-flex flex-grow-1 p-3">
+                    <div class="d-flex flex-row gap-2 ms-auto mt-auto">
+                        {{ form_row(form.send) }}
+                        {{ form_row(form.draft) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+{% endblock %}

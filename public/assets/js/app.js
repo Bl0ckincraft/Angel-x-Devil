@@ -1,7 +1,38 @@
 var doCartAction = false;
 
+let counter = {
+    'to': 0,
+    'cc': 0,
+    'cci': 0,
+    'attachment': 0
+}
 
+$('#attachment-input').change(function () {
+    let inputContainer = $('#mail_form_attachments');
+    inputContainer.append('<input readonly type="file" id="mail_form_attachments_' + counter['attachment'] + '" name="mail_form[attachment][' + counter['attachment'] + ']" class="form-control my-2">');
+    $('#mail_form_attachments_' + counter['attachment'])[0].files = $(this)[0].files;
+    counter['attachment'] += 1
+});
 
+$('.mail-add-button').click(function () {
+    let add = $(this).data('add-mail');
+    let input = $('#add-' + add + '-input');
+    let content = input.val();
+
+    let inputContainer = $('#mail_form_' + add);
+    var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    var errorField = $('#add-' + add + '-error')
+
+    if (!regexEmail.test(content)) {
+        errorField.css('display', 'inherit')
+        return;
+    }
+
+    errorField.css('display', 'none')
+    inputContainer.append('<input readonly value="' + content + '" type="email" id="mail_form_' + add + '_' + counter[add] + '" name="mail_form[' + add + '][' + counter[add] + ']" class="form-control my-2">');
+    input.val("")
+    counter[add] += 1
+});
 
 function cleanUrl(url) {
     while (url.slice(-1) === '&' || url.slice(-1) === '?') {
@@ -264,7 +295,7 @@ function refreshCart(data) {
         $('.cart-total-quantity').each(function () {
             $(this).html(cart['cart_total_quantity']);
         });
-        
+
         $('.cart-element').each(function () {
            var elementId = $(this).data('element-id');
            var match = false;

@@ -15,7 +15,7 @@
                         <a class="mail-preview w-100 d-flex flex-row rounded-2" href="{{ path('app_admin_mailbox_read', {'id': m.id, 'box': box}) }}">
                             <span class="seen-indicator {% if m.seen %} seen {% endif %}"></span>
                             <span class="d-flex flex-column mail-from">
-                                <span class="mail-from-name">{{ m.fromName }}</span>
+                                <span class="mail-from-name">{% if m.fromName and m.fromName is not empty %}{{ m.fromName }}{% else %}{{ m.fromMail }}{% endif %}</span>
                                 <span class="mail-from-subject">{{ m.subject }}</span>
                             </span>
                             <span class="mail-from-date">{{ m.date }}</span>
