@@ -310,6 +310,7 @@ class MailUtils
     {
         $mailer = new PHPMailer(true);
 
+        $mailer->SMTPDebug = 2;
         $mailer->isSMTP();
         $mailer->Host = 'angel-x-devil.fr';
         $mailer->SMTPAuth = true;
