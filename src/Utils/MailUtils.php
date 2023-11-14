@@ -22,10 +22,6 @@ class MailUtils
             'displayName' => 'Envoyés',
             'imapName' => 'Sent'
         ],
-        'trash' => [
-            'displayName' => 'Corbeille',
-            'imapName' => 'Trash'
-        ],
         'spams' => [
             'displayName' => 'Spams',
             'imapName' => 'Junk'
@@ -198,7 +194,7 @@ class MailUtils
                     if (empty($filename)) $filename = $attachment['filename'];
 
                     if (empty($filename)) $filename = time() . ".dat";
-                    $folder = $kernel->getProjectDir() . DIRECTORY_SEPARATOR . "attachment" . DIRECTORY_SEPARATOR . MailUtils::getMailName($email);
+                    $folder = $kernel->getProjectDir() . DIRECTORY_SEPARATOR . "attachment". DIRECTORY_SEPARATOR . "users" . DIRECTORY_SEPARATOR . MailUtils::getMailName($email);
                     if (!is_dir($folder)) {
                         mkdir($folder);
                     }
@@ -322,14 +318,13 @@ class MailUtils
         $mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mailer->Port = 587;
 
-        $mailer->From = $mail->getFrom();
-        $mailer->FromName = $mail->getFromName();
+        $mailer->setFrom($mail->getFrom(), name: $mail->getFromName());
         $mailer->Subject = $mail->getSubject();
         $mailer->Body = $mail->getTextHtml();
         $mailer->AltBody = $mail->getTextPlain();
 
         foreach ($mail->getTo() as $address => $name) {
-            $mailer->addAddress($address, name: $name['name']);
+            $mailer->addAddress($address, name: $name);
         }
 
         foreach ($mail->getCc() as $address => $name) {

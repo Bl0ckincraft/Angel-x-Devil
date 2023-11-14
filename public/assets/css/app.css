@@ -164,6 +164,7 @@ body {
 }
 
 .mail-navbar {
+    min-width: fit-content;
     overflow-x: hidden;
     width: 0;
     transition: width ease-in-out .5s;
@@ -387,7 +388,7 @@ body {
     --bs-btn-disabled-border-color: #5dade2;  /* Bleu clair pour la bordure en état désactivé */
 }
 
-.mail-add-button {
+.mail-button {
     text-align: center;
     padding: 10px;
     width: 36px;
@@ -411,12 +412,25 @@ body {
     transition: background-color .3s ease-in-out;
 }
 
+.custom-file-label.is-invalid {
+    border-color:var(--bs-danger);
+    padding-right:calc(1.5em + .75rem);
+    background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+    background-repeat:no-repeat;
+    background-position:right calc(.375em + .1875rem) center;
+    background-size:calc(.75em + .375rem) calc(.75em + .375rem)
+}
+
 .custom-file-label:hover {
     background-color: #EFEFEF;
 }
 
-.mail-add-button:hover {
+.mail-button:hover {
     background-color: #EFEFEF;
+}
+
+.mail-form-add {
+    border-color: #777777;
 }
 
 @media (min-width: 750px) {

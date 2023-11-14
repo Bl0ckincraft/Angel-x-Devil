@@ -3,21 +3,24 @@
 namespace App\Controller\Admin;
 
 use App\Controller\Base\AbstractAppController;
+use App\Entity\MailDraft;
 use App\Entity\User;
 use App\Form\MailFormType;
-use App\Utils\Mail;
+use App\Utils\MailFormData;
 use App\Utils\MailUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AdminMailController extends AbstractAppController
 {
-    public function __construct(private EntityManagerInterface $entityManager) {
+    public function __construct(private EntityManagerInterface $entityManager, private KernelInterface $kernel, private SluggerInterface $slugger) {
 
     }
 
@@ -51,7 +54,7 @@ class AdminMailController extends AbstractAppController
 
         $admin_email = $user->getAdminEmail();
 
-        $folder = $kernel->getProjectDir() . DIRECTORY_SEPARATOR . "attachment" . DIRECTORY_SEPARATOR . MailUtils::getMailName($admin_email);
+        $folder = $kernel->getProjectDir() . DIRECTORY_SEPARATOR . "attachment" . DIRECTORY_SEPARATOR . 'users' . DIRECTORY_SEPARATOR . MailUtils::getMailName($admin_email);
         $finalPath = $folder . DIRECTORY_SEPARATOR . $msId . "-" . $fileName;
         $realPath = realpath($finalPath);
 
@@ -97,17 +100,27 @@ class AdminMailController extends AbstractAppController
 
         if (!$admin_email || !$decrypted_admin_email_password) return new Response(status: 400);
 
-        $mail = new Mail($admin_email, $user->getFullName());
-        $form = $this->createForm(MailFormType::class, $mail);
+        $mail = new MailFormData();
 
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            dd($form);
+        if ($request->query->has("answer")) {
+            // TODO
+        } else if ($request->query->has("transfer")) {
+            // TODO
         }
 
+        $form = $this->createForm(MailFormType::class, $mail);
+        $form->handleRequest($request);
+
+        /** @var MailFormData $mail */
+        $mail = $form->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $mail->send($admin_email, $decrypted_admin_email_password, $admin_email, $user->getFullName(), $this->entityManager, $this->kernel, $this->slugger);
+            return $this->redirectToRoute('app_admin');
+        }
+
+        $mail->clearAttachments();
         return $this->render('admin/mail/write.html.twig', [
-           'form' => $form
+            'form' => $form
         ]);
     }
 }

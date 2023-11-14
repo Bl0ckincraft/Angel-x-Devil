@@ -4,14 +4,104 @@ let counter = {
     'to': 0,
     'cc': 0,
     'cci': 0,
-    'attachment': 0
+    'attachments': 0
 }
+
+function isFileEmpty(file, callback) {
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+        const content = event.target.result;
+        const isEmpty = content.length === 0;
+        callback(isEmpty);
+    };
+
+    reader.readAsText(file);
+}
+
+function sanitizeHTML(input) {
+    const div = document.createElement('div');
+    div.textContent = input;
+    return div.innerHTML;
+}
+
+$(document).click(function () {
+    $('input[type=file]').each(function () {
+        console.log($(this)[0].files)
+    })
+})
+
+$(document).ready(function () {
+    $('.form-label').each(function () {
+        fora = $(this).attr('for')
+        var regex = /mail_form_(to|cc|cci|attachments)_([0-9]+)/;
+
+        if (!regex.test(fora)) {
+            return
+        }
+
+        var data = regex.exec(fora)
+        var type = data[1]
+        var id = parseInt(data[2])
+
+        counter[type] = Math.max(id + 1, counter[type])
+        $(this).css('display', 'none')
+    })
+})
+
+$('.form-control').click(function () {
+    var id = $(this).attr('id')
+    var regex = /mail_form_(to|cc|cci|attachments)_([0-9]+)/;
+
+    if (regex.test(id)) {
+        $(this).preventDefault()
+    }
+})
 
 $('#attachment-input').change(function () {
     let inputContainer = $('#mail_form_attachments');
-    inputContainer.append('<input readonly type="file" id="mail_form_attachments_' + counter['attachment'] + '" name="mail_form[attachment][' + counter['attachment'] + ']" class="form-control my-2">');
-    $('#mail_form_attachments_' + counter['attachment'])[0].files = $(this)[0].files;
-    counter['attachment'] += 1
+    var label = $('#attachment-input-label')
+    var errorField = $('#form-attachments-error')
+    var thisFiles = $(this)[0].files
+
+    isFileEmpty(thisFiles[0], function (isEmpty) {
+        if (isEmpty) {
+            errorField.html('Le fichier ne doit pas être vide')
+            errorField.removeClass('d-none')
+            errorField.addClass('d-block')
+            label.addClass('is-invalid')
+            return;
+        } else {
+            if (thisFiles[0].size > 5 * 1024 * 1024 * 8) {
+                errorField.html('La taille des fichiers est au maximum de 5Mo')
+                errorField.removeClass('d-none')
+                errorField.addClass('d-block')
+                label.addClass('is-invalid')
+                return;
+            }
+
+            label.removeClass('is-invalid')
+            errorField.removeClass('d-block')
+            errorField.addClass('d-none')
+
+            var id = counter['attachments']
+
+            inputContainer.append('<div id="attachments-container-' + id + '" class="d-flex flex-row">' +
+                '                      <input readonly type="file" id="mail_form_attachments_' + id + '" name="mail_form[attachments][' + id + ']" class="form-control my-2" style="display: none">' +
+                '                      <input readonly type="text" class="my-2 form-control" value="' + sanitizeHTML(thisFiles[0].name) + '"/>' +
+                '                      <div class="my-auto" style="width: 36px!important; height: 36px!important;">' +
+                '                          <span id="remove-attachments-item-' + id + '" class="mail-button mail-remove-button fa-solid fa-trash"></span>' +
+                '                      </div>' +
+                '                 </div>')
+
+            $('#remove-attachments-item-' + id).click(function () {
+                $('#attachments-container-' + id).remove()
+            })
+
+            $('#mail_form_attachments_' + counter['attachments'])[0].files = thisFiles;
+            counter['attachments'] += 1
+        }
+    })
 });
 
 $('.mail-add-button').click(function () {
@@ -20,16 +110,33 @@ $('.mail-add-button').click(function () {
     let content = input.val();
 
     let inputContainer = $('#mail_form_' + add);
-    var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    var errorField = $('#add-' + add + '-error')
+    var regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    var errorField = $('#form-' + add + '-error')
 
     if (!regexEmail.test(content)) {
-        errorField.css('display', 'inherit')
+        errorField.html('Adresse invalide')
+        errorField.removeClass('d-none')
+        errorField.addClass('d-block')
+        input.addClass('is-invalid')
         return;
     }
 
-    errorField.css('display', 'none')
-    inputContainer.append('<input readonly value="' + content + '" type="email" id="mail_form_' + add + '_' + counter[add] + '" name="mail_form[' + add + '][' + counter[add] + ']" class="form-control my-2">');
+    var id = counter[add]
+
+    input.removeClass('is-invalid')
+    errorField.removeClass('d-block')
+    errorField.addClass('d-none')
+    inputContainer.append('<div id="' + add + '-container-' + id + '" class="d-flex flex-row">' +
+        '                      <input readonly value="' + sanitizeHTML(content) + '" type="email" id="mail_form_' + add + '_' + id+ '" name="mail_form[' + add + '][' + id + ']" class="form-control my-2">' +
+        '                      <div class="my-auto" style="width: 36px!important; height: 36px!important;">' +
+        '                          <span id="remove-' + add + '-item-' + id + '" class="mail-button mail-remove-button fa-solid fa-trash"></span>' +
+        '                      </div>' +
+        '                 </div>')
+
+    $('#remove-' + add + '-item-' + id).click(function () {
+        $('#' + add + '-container-' + id).remove()
+    })
+
     input.val("")
     counter[add] += 1
 });
