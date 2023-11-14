@@ -67,7 +67,7 @@ class MailFormData
         try {
             MailUtils::sendMail($mail, $username, $decryptedPassword);
         } catch (Exception $e) {
-            dd($e);
+
         }
 
         $this->deleteFolder($folder);

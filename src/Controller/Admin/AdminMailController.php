@@ -114,8 +114,12 @@ class AdminMailController extends AbstractAppController
         /** @var MailFormData $mail */
         $mail = $form->getData();
         if ($form->isSubmitted() && $form->isValid()) {
-            $mail->send($admin_email, $decrypted_admin_email_password, $admin_email, $user->getFullName(), $this->entityManager, $this->kernel, $this->slugger);
-            return $this->redirectToRoute('app_admin');
+            try {
+                $mail->send($admin_email, $decrypted_admin_email_password, $admin_email, $user->getFullName(), $this->entityManager, $this->kernel, $this->slugger);
+                return $this->redirectToRoute('app_admin');
+            } catch (\Exception $e) {
+                dd($e);
+            }
         }
 
         $mail->clearAttachments();
