@@ -315,10 +315,11 @@ class MailUtils
         $mailer->SMTPAuth = true;
         $mailer->Username = $username;
         $mailer->Password = $decrypted_password;
-        $mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mailer->Port = 587;
+        $mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mailer->Port = 465;
 
         $mailer->setFrom($mail->getFrom(), name: $mail->getFromName());
+        $mailer->isHTML();
         $mailer->Subject = $mail->getSubject();
         $mailer->Body = $mail->getTextHtml();
         $mailer->AltBody = $mail->getTextPlain();
