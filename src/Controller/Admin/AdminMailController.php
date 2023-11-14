@@ -3,14 +3,12 @@
 namespace App\Controller\Admin;
 
 use App\Controller\Base\AbstractAppController;
-use App\Entity\MailDraft;
 use App\Entity\User;
 use App\Form\MailFormType;
 use App\Utils\MailFormData;
 use App\Utils\MailUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -90,7 +88,6 @@ class AdminMailController extends AbstractAppController
     #[Route('/admin/mailbox/write/new', name: 'app_admin_mailbox_write')]
     public function write(Request $request) : Response
     {
-        try {
         /** @var User $user */
         $user = $this->getUser();
         $key = $this->getParameter('app.mail_encrypt_key');
@@ -123,8 +120,5 @@ class AdminMailController extends AbstractAppController
         return $this->render('admin/mail/write.html.twig', [
             'form' => $form
         ]);
-    } catch (\Throwable $e) {
-dd($e);
-}
     }
 }
