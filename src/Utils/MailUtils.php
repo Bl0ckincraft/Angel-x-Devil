@@ -303,6 +303,13 @@ class MailUtils
         return $result;
     }
 
+    public static function appendMailIntoBox(string $mailData, string $imapBoxName, string $username, string $decryptedPassword, ?string $options): void
+    {
+        $hostname = '{angel-x-devil.fr:993/imap/ssl}' . $imapBoxName;
+        $mailbox = imap_open($hostname, $username, $decryptedPassword);
+        imap_append($mailbox, $hostname, $mailData, $options);
+    }
+
     /**
      * @throws \PHPMailer\PHPMailer\Exception
      */
@@ -310,7 +317,6 @@ class MailUtils
     {
         $mailer = new PHPMailer(true);
 
-        $mailer->SMTPDebug = 2;
         $mailer->isSMTP();
         $mailer->Host = 'angel-x-devil.fr';
         $mailer->SMTPAuth = true;
@@ -341,6 +347,9 @@ class MailUtils
             $mailer->addAttachment($path, name: $name ?: '');
         }
 
-        $mailer->send();
+        $result = $mailer->send();
+        if ($result) {
+            self::appendMailIntoBox($mailer->getSentMIMEMessage(), "Sent", $username, $decrypted_password, "\\Seen");
+        }
     }
 }

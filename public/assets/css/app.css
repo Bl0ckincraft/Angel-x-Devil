@@ -197,6 +197,10 @@ body {
     position: relative;
 }
 
+.mail-nav-button a {
+    display: block;
+}
+
 .mail-nav-button::after {
     content: "";
     position: absolute;
